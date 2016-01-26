@@ -32,7 +32,8 @@ var SPACEBETWEENFLOATINGPIZZAS = 256;
 function calcInitialLeftPosFloatingPizzas() {
   var retVal = [];
   for (var i = 0; i < NUMBEROFFLOATINGPIZZAS; i++) {
-    retVal.push((i % COLSOFFLOATINGPIZZAS) * SPACEBETWEENFLOATINGPIZZAS;
+    retVal.push((i % COLSOFFLOATINGPIZZAS) * SPACEBETWEENFLOATINGPIZZAS);
+    console.log(retVal);
     }
     return retVal;
   }
