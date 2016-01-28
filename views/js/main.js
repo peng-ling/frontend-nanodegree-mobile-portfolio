@@ -19,15 +19,19 @@ cameron *at* udacity *dot* com
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
 
-//moved the floating pizza parameter here to have an overview
-// no need for 200 pizzas floating arround as 30 are enough to fill my 13" screen,
-//so 100 will do for real big one..
+// moved COLSOFFLOATINGPIZZAS (has been cols) before  and
+//s (PACEBETWEENFLOATINGPIZZAS has been s before) here to have an overview
+// then the number of required floating pizzas gets calculated dependand on the screen hight of the visitor
+// and stored in numberOfFloatingPizzas
 
 var COLSOFFLOATINGPIZZAS = 8;
 var SPACEBETWEENFLOATINGPIZZAS = 256;
 
 var rows = window.screen.height / SPACEBETWEENFLOATINGPIZZAS;
-var numberOfFloatingPizzas = Math.round(100 / COLSOFFLOATINGPIZZAS);
+var numberOfFloatingPizzas = Math.round(rows * COLSOFFLOATINGPIZZAS);
+
+// for debuging only shows how many pizzas float arround on my 13" screen there are 28.
+//alert(numberOfFloatingPizzas);
 
 
 // calculate the initial left position of floating pizzas
@@ -36,7 +40,7 @@ var numberOfFloatingPizzas = Math.round(100 / COLSOFFLOATINGPIZZAS);
 function calcInitialLeftPosFloatingPizzas() {
   var retVal = [];
   for (var i = 0; i < numberOfFloatingPizzas; i++) {
-    retVal.push((i % COLSOFFLOATINGPIZZAS) * SPACEBETWEENFLOATINGPIZZAS);
+    retVal.push(Math.round((i % COLSOFFLOATINGPIZZAS) * SPACEBETWEENFLOATINGPIZZAS));
   }
   return retVal;
 }
@@ -506,10 +510,14 @@ var resizePizzas = function(size) {
     var dx = determineDx(staticPizza[1], size);
     var newwidth = (staticPizza[1].offsetWidth + dx) + 'px';
 
-    staticPizza.foreach(function(pizza) {
+    /*
+    staticPizza.forEach(function(pizza) {
       pizza.style.width = newwidth;
     });
-
+    */
+    for (var i = 0; i < staticPizza.length; i++) {
+      document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+    }
   }
 
   changePizzaSizes(size);
@@ -586,7 +594,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
   var elem;
-  for (var i = 0; i < 200; i++) {
+  // numberOfFloatingPizzas gets calculated at pageload, see top of script for details
+  for (var i = 0; i < numberOfFloatingPizzas; i++) {
     elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
